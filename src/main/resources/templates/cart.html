@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="root">
+        <div class="Toastify"></div>
+        <div class="container d-flex align-items-center border-bottom py-2 mt-2">
+            <div class="d-flex align-items-center" style="min-width: 180px;"><a class="logo" href="/"><svg
+                        stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" class="me-2"
+                        height="22" width="22" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z">
+                        </path>
+                    </svg> Shoe Ecommerce</a></div>
+            <div class="d-flex flex-grow-1 justify-content-between">
+                <form class="w-50 d-flex align-items-center"><input type="search" placeholder="Enter your search shoes"
+                        class="form-control form-control-sm" value="" style="padding-right: 25px;"><svg
+                        stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="15"
+                        width="15" xmlns="http://www.w3.org/2000/svg"
+                        style="color: rgba(0, 0, 0, 0.2); margin-left: -25px;">
+                        <path
+                            d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z">
+                        </path>
+                    </svg></form>
+                <div class="d-flex"><a class="position-relative me-3" href="/cart"><svg stroke="currentColor"
+                            fill="currentColor" stroke-width="0" viewBox="0 0 576 512" class="me-2" role="button"
+                            height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z">
+                            </path>
+                        </svg><span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span></a><svg
+                        stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" role="button"
+                        height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z">
+                        </path>
+                    </svg></div>
+            </div>
+        </div>
+        <div class="container mt-1">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class=" py-2">Cart Detail</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-8">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="max-width: 200px;">
+                                    <div class="d-flex align-items-center">
+                                        <img class="product-image"
+                                            src="https://m.media-amazon.com/images/I/519MRhRKGFL._AC_UX575_.jpg" alt=""
+                                            style="width: 50px; height: 50px;">
+                                        <div class="d-inline">
+                                            <div class="d-block fw-bolder mb-2">Nike Air Vapormax Plus</div>
+                                            <div class="badge py-2" style="background-color: red;">red</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-end">$200</td>
+                                <td>
+                                    <div class="cart-quantity-wrap">
+                                        <div class="cart-quantity"><span>-</span><span>1</span><span>+</span></div>
+                                    </div>
+                                </td>
+                                <td class="text-end">$200</td>
+                                <td>
+                                    <div class="action-wrap"><span class="btn-remove">×</span></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row col-md-12"><a href="/shoe"><svg stroke="currentColor" fill="currentColor"
+                                stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z">
+                                </path>
+                            </svg> Countinue shopping</a></div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4" style="min-width: 300px;">
+                    <form>
+                        <div class="order-summary p-3">
+                            <h3 class="border-bottom py-2">Order Summary</h3>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-between py-2">
+                                    <span>Subtotal</span><span class="fw-bolder">$200</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between py-2">
+                                    <span>Shipping</span><span class="fw-bolder">Free</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2"><span
+                                    class="fs-6">Total</span><span class="fw-bolder fs-6">$200</span></div>
+                        </div>
+                        <div class="customer-info p-3">
+                            <h3 class="border-bottom py-2">Customer Info</h3>
+                            <div class="form-group mb-3"><label class="form-label">Fullname</label><input type="text"
+                                    class="form-control " placeholder="Fullname" name="fullname"><span
+                                    class="invalid-feedback"></span></div>
+                            <div class="form-group mb-3"><label class="form-label">Address</label><input type="text"
+                                    class="form-control " placeholder="Address" name="address"><span
+                                    class="invalid-feedback"></span></div>
+                            <div class="form-group mb-3"><label class="form-label">Email</label><input type="text"
+                                    class="form-control " placeholder="Email" name="email"><span
+                                    class="invalid-feedback"></span></div>
+                            <div class="form-group mb-3"><label class="form-label">Mobile</label><input type="text"
+                                    class="form-control " placeholder="Mobile" name="mobile"><span
+                                    class="invalid-feedback"></span></div>
+                        </div>
+                        <div
+                            class="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
+                            <button class="btn btn-block" type="submit">CHECKOUT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
