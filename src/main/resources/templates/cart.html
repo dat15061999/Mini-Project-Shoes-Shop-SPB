@@ -7,80 +7,90 @@
 </head>
 
 <body>
-    <th:block th:replace="layout/toast"></th:block>
-    <div id="root">
-        <div class="Toastify"></div>
-        <th:block th:replace="layout/taskbar"></th:block>
-        <div class="container mt-1 pb-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class=" py-2">Cart Detail</h3>
-                </div>
+<th:block th:replace="layout/toast"></th:block>
+<div id="root">
+    <div class="Toastify"></div>
+    <th:block th:replace="layout/taskbar"></th:block>
+    <div class="container mt-1 pb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class=" py-2">Cart Detail</h3>
             </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-8">
-                    <table class="table cart-table table-striped">
-                        <thead>
-                            <tr >
-                                <th class="table-light">Product</th>
-                                <th class="text-end table-light">Price</th>
-                                <th class="text-center table-light">Quantity</th>
-                                <th class="text-end table-light">Total</th>
-                                <th class="text-center table-light">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="render-cart-detail">
-
-                        </tbody>
-                    </table>
-                    <div class="row col-md-12"><a href="/shoe"><svg stroke="currentColor" fill="currentColor"
-                                stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z">
-                                </path>
-                            </svg> Continue shopping</a></div>
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-4" style="min-width: 300px;">
-                    <form>
-                        <div class="order-summary p-3">
-                            <h3 class="border-bottom py-2">Order Summary</h3>
-                            <div class="d-flex flex-column">
-                                <div class="d-flex align-items-center justify-content-between py-2">
-                                    <span>Subtotal</span><span class="fw-bolder subtotal">$200</span>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between py-2">
-                                    <span>Shipping</span><span class="fw-bolder">Free</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2"><span
-                                    class="fs-6">Total</span><span class="fw-bolder fs-6 total">$200</span></div>
-                        </div>
-                        <div class="customer-info p-3">
-                            <h3 class="border-bottom py-2">Customer Info</h3>
-                            <div class="form-group mb-3"><label class="form-label">Fullname</label><input type="text"
-                                    class="form-control " placeholder="Fullname" name="fullname"><span
-                                    class="invalid-feedback"></span></div>
-                            <div class="form-group mb-3"><label class="form-label">Address</label><input type="text"
-                                    class="form-control " placeholder="Address" name="address"><span
-                                    class="invalid-feedback"></span></div>
-                            <div class="form-group mb-3"><label class="form-label">Email</label><input type="text"
-                                    class="form-control " placeholder="Email" name="email"><span
-                                    class="invalid-feedback"></span></div>
-                            <div class="form-group mb-3"><label class="form-label">Mobile</label><input type="text"
-                                    class="form-control " placeholder="Mobile" name="mobile"><span
-                                    class="invalid-feedback"></span></div>
-                        </div>
-                        <div
-                            class="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
-                            <button class="btn btn-block btn-checkOut" type="button">CHECKOUT</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-4"></div>
         </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-8">
+                <table class="table cart-table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="table-light">Product</th>
+                        <th class="text-end table-light">Price</th>
+                        <th class="text-center table-light">Quantity</th>
+                        <th class="text-end table-light">Total</th>
+                        <th class="text-center table-light">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="render-cart-detail">
+
+                    </tbody>
+                </table>
+                <div class="row col-md-12"><a href="/shoe">
+                    <svg stroke="currentColor" fill="currentColor"
+                         stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z">
+                        </path>
+                    </svg>
+                    Continue shopping</a></div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-4" style="min-width: 300px;">
+                <form>
+                    <div class="order-summary p-3 mb-2" style="background-color: #cccccc;" >
+                        <h3 class="border-bottom py-2">Order Summary</h3>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between py-2">
+                                <span>Subtotal</span><span class="fw-bolder subtotal">$200</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between py-2">
+                                <span>Shipping</span><span class="fw-bolder">Free</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between border-top mt-2 py-2"><span
+                                class="fs-6">Total</span><span class="fw-bolder fs-6 total">$200</span></div>
+                    </div>
+                    <div class="customer-info p-3"  style="background-color: #dee2e6;">
+                        <h3 class="border-bottom py-2">Customer Info</h3>
+                        <div class="form-group mb-3">
+                            <label class="form-label">FullName</label>
+                            <input type="text" class="form-control fullName" placeholder="FullName" name="fullName">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control address" placeholder="Address" name="address">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="text" class="form-control email" placeholder="Email" name="email">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Mobile</label>
+                            <input type="tel" class="form-control mobile" placeholder="Mobile" name="mobile">
+                            <span class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                    <div
+                            class="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
+                        <button class="btn btn-block btn-checkOut" type="button">CHECKOUT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4"></div>
     </div>
+</div>
 </body>
 <script src="/assets/js/demo.js"></script>
 <script src="/assets/js/cart.js"></script>

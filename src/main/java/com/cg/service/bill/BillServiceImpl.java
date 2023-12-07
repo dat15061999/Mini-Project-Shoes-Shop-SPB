@@ -23,6 +23,7 @@ public class BillServiceImpl implements IBillService{
     @Autowired
     private BillDetailRepository billDetailRepository;
 
+
     @Override
     public List<Bill> findAll() {
         return null;

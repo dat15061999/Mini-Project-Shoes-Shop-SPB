@@ -12,9 +12,11 @@ import com.cg.service.bill.IBillService;
 import com.cg.service.cartdetail.CartDetailServiceImpl;
 import com.cg.service.customer.ICustomerService;
 import com.cg.service.product.ProductServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class HomeApi {
     private IBillService billService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 5) Pageable pageable,
+    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 2) Pageable pageable,
                                                       @RequestParam(defaultValue = "", value = "search") String search,
                                                       @RequestParam(defaultValue = "", value = "category") String categoryName,
                                                       @RequestParam(defaultValue = "", value = "company") String companyName,
@@ -49,7 +51,6 @@ public class HomeApi {
                                                       @RequestParam(defaultValue = "500000000000000000", value = "max") BigDecimal max
 
     ) {
-
 
         return new ResponseEntity<>(productService.showAllProduct(categoryName, companyName, colorName, search, pageable, min, max), HttpStatus.OK);
     }
@@ -117,6 +118,7 @@ public class HomeApi {
         Optional<Bill> bill = billService.findBillByCustomer_Name(customer.getName());
         for (CartDetail item : cartDetails) {
             billService.save(bill.get(),item);
+            cartDetailService.delete(item.getId());
         }
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }

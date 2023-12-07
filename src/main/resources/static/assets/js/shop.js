@@ -13,9 +13,7 @@ $(async () => {
     products = page.content;
 
     productsPerPage = page.pageable.pageSize;
-
     renderProducts(products);
-    renderPagination(Math.ceil(products.length / productsPerPage));
     handlePaginationClick();
     handleClick();
     await count()

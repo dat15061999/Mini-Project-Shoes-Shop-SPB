@@ -16,7 +16,16 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             "JOIN p.category c " +
             "JOIN p.color cl " +
             "JOIN p.company cp " +
-            "WHERE (c.name LIKE %:categoryName% AND cl.name LIKE %:colorName% AND cp.name LIKE %:companyName% AND p.prevPrice BETWEEN :min AND :max) " +
+            "WHERE " +
+            "(c.name LIKE %:categoryName% AND cl.name LIKE %:colorName% " +
+            "AND cp.name LIKE %:companyName% AND p.prevPrice BETWEEN :min AND :max) " +
             "AND (c.name LIKE %:search% OR cl.name LIKE %:search% OR cp.name LIKE %:search%)")
-    Page<Product> searchAllByService(@Param("categoryName") String categoryName,@Param("companyName") String companyName,@Param("colorName") String colorName,@Param("search") String search, Pageable pageable , @Param("min") BigDecimal min, @Param("max") BigDecimal max);
+    Page<Product> searchAllByService(@Param("categoryName") String categoryName,
+                                     @Param("companyName") String companyName,
+                                     @Param("colorName") String colorName,
+                                     @Param("search") String search,
+                                     Pageable pageable ,
+                                     @Param("min") BigDecimal min,
+                                     @Param("max") BigDecimal max
+    );
 }

@@ -1,7 +1,7 @@
 let products = [];
 let page = [];
 let newListProducts = [];
-let currentPage = 1;
+let currentPage = 0;
 let productsPerPage;
 const eleRenderCarts = $('#render-cart-detail');
 let listCart = [];
@@ -45,21 +45,28 @@ async function filterDataFromTypePro() {
     const valueColor = $('input.color:checked').val();
     const valuePrice = $('input.price:checked').val();
     const [numberBefore, numberAfter] =
-        (valuePrice === "All" ) ? "1-5550".match(/^(\d+)-(\d+)$/)?.slice(1) : (valuePrice === "Over150") ? "150-150".match(/^(\d+)-(\d+)$/)?.slice(1) :valuePrice.match(/^(\d+)-(\d+)$/)?.slice(1);
+        (valuePrice === "All") ? "1-5550".match(/^(\d+)-(\d+)$/)?.slice(1) : (valuePrice === "Over150") ? "150-150".match(/^(\d+)-(\d+)$/)?.slice(1) : valuePrice.match(/^(\d+)-(\d+)$/)?.slice(1);
     const search = $('input.in-search').val().toLowerCase();
     const brandMatch = (valueBrand === "All Products") ? "" : valueBrand;
     const categoryMatch = (valueCategory === "All") ? "" : valueCategory.toLowerCase();
     const colorMatch = (valueColor === "All") ? "" : valueColor.toLowerCase();
-    const data = {
+    const sortPrice = $('#sortPrice').find(":selected").val();
+    const size = $('#pageSize').find(":selected").val();
+
+    const
+    data = {
         search: search,
         category: categoryMatch,
         company: brandMatch,
         color: colorMatch,
         min: numberBefore,
-        max: numberAfter
+        max: numberAfter,
+        page: currentPage,
+        sort: "prevPrice," + sortPrice,
+        size
     }
     const url = `http://localhost:8081/api/products`;
-     newListProducts = await getAllProductByFilter(url, "GET", data);
+    newListProducts = await getAllProductByFilter(url, "GET", data);
     renderProducts(newListProducts.content);
 }
 
@@ -71,6 +78,7 @@ async function getAllProductByFilter(url, method, data) {
         contentType: "application/json"
     });
 }
+
 async function callAPI(url, method, data) {
     return await $.ajax({
         url: url,
@@ -79,6 +87,7 @@ async function callAPI(url, method, data) {
         contentType: "application/json"
     });
 }
+
 function render(obj) {
     let divs = '';
     for (let i = 0; i < obj.render.length; i++) {
@@ -160,20 +169,22 @@ async function getAllProduct() {
 
 function renderProducts(list) {
     $('.render-product').empty();
-    const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const paginatedList = list.slice(startIndex, endIndex);
-    paginatedList.forEach((ele) => {
+    // const startIndex = (currentPage - 1) * productsPerPage;
+    // const endIndex = startIndex + productsPerPage;
+    // const paginatedList = list.slice(startIndex, endIndex);
+    list.forEach((ele) => {
         const str = renderPro(ele);
         $('.render-product').append(str);
     })
+    renderPagination(productsPerPage);
+
 }
 
 function renderPagination(totalPages) {
     const elePage = $('.pagination');
     elePage.empty();
     let prevButton = '';
-    if (currentPage > 1) {
+    if (currentPage > 0) {
         prevButton = ` <li class="page-item">
                            <a class="page-link" data-page="${currentPage - 1} href="#" tabindex="-1" aria-disabled="true">Previous</a>
                        </li>`;
@@ -183,12 +194,12 @@ function renderPagination(totalPages) {
                        </li>`;
     }
     elePage.append(prevButton);
-    for (let i = 1; i <= totalPages; i++) {
-        const str = `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+    for (let i = 0; i < totalPages; i++) {
+        const str = `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i + 1}</a></li>`;
         elePage.append(str);
     }
     let nextButton = '';
-    if (currentPage < totalPages) {
+    if (currentPage + 1 < totalPages) {
         nextButton = ` <li class="page-item">
                                     <a class="page-link" data-page="${currentPage + 1}" href="#">Next</a>
                        </li>`;
@@ -201,11 +212,17 @@ function renderPagination(totalPages) {
 }
 
 function handlePaginationClick() {
-    $('.pagination').on('click', 'a', function () {
+    $('.pagination').on('click', 'a', async function () {
         currentPage = parseInt($(this).data('page'));
-        renderProducts(products);
-        renderPagination(Math.ceil(products.length / productsPerPage));
+        await filterDataFromTypePro();
     });
+    $('#sortPrice').on('change', async function () {
+        await filterDataFromTypePro();
+    })
+    $('#pageSize').on('change', async function () {
+        await filterDataFromTypePro();
+    })
+
     $('.btn-cart').on("click", async function () {
         const idPro = parseFloat($(this).attr("id"));
         const quantity = 1;
@@ -248,6 +265,7 @@ async function getCount() {
         url: "http://localhost:8081/api/products/amountCartDetail"
     })
 }
+
 async function count() {
     const count = await getCount();
     if (count > 0) {
@@ -259,6 +277,7 @@ async function count() {
         $('button.btn-checkOut').hide();
     }
 }
+
 function renderCart(obj) {
     return `
             <tr class="align-content-center" style="vertical-align: middle;" id="${obj.id}">
@@ -296,14 +315,17 @@ async function getAllCarts() {
     })
 }
 
-async function renderCarts(list) {
+async function renderCarts() {
+    listCart = await getAllCarts();
     eleRenderCarts.empty();
-    list.forEach((item) => {
+    listCart.forEach((item) => {
         const str = renderCart(item);
         eleRenderCarts.append(str);
     })
+    await count();
 }
- function confirmDelete(id){
+
+function confirmDelete(id) {
     showAlertById(id);
 }
 
@@ -330,6 +352,7 @@ function showAlertById(id) {
         }
     });
 }
+
 function deleteEle(idCart) {
     $('#render-cart-detail').children(`tr[id="${idCart}"]`).remove();
 }
