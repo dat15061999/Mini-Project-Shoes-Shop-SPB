@@ -1,0 +1,33 @@
+<th:block th:frogment="taskbar">
+  <div class="container d-flex align-items-center border-bottom py-2 mt-2" style="width: 85%;">
+    <div class="d-flex align-items-center" style="min-width: 180px;">
+      <a href="/home">
+        <i class="fa fa-cart-plus" style="font-size: 17px;">
+          Shoe Ecommerce
+        </i>
+      </a>
+
+    </div>
+    <div class="d-flex flex-grow-1 justify-content-between">
+      <form action="" class="d-flex flex-grow-1 align-items-center">
+        <div class="input-group" style="width: 450px;">
+          <input type="search" placeholder="Enter your search shoes"
+                 class="form-control form-control-sm in-search" value="">
+          <button type="button" class="btn btn-primary input-group-text btn-search"><i
+                  class="fa fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="d-flex" >
+      <div>
+        <a href="/home/cart" class="btn position-relative">
+          <i class="fa fa-shopping-cart">
+            <span  id="count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger "></span>
+          </i>
+        </a>
+        <button type="button" class="btn"><i class="fa fa-user"></i></button>
+      </div>
+    </div>
+  </div>
+</th:block>

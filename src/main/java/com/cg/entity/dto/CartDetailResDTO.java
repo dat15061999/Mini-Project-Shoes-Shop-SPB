@@ -1,6 +1,5 @@
-package com.cg.entity;
+package com.cg.entity.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,26 +7,17 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity
-@Table(name = "bill_details")
 @Accessors(chain = true)
-public class BillDetail {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CartDetailResDTO {
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-    @ManyToOne
-    @JoinColumn(name = "bill_id")
-    private Bill bill;
+    private String color;
     private String url;
     private String productName;
     private BigDecimal productPrice;
     private int quantity;
     private BigDecimal total;
-
 }

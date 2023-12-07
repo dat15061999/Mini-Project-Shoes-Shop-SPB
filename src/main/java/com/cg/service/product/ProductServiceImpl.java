@@ -5,8 +5,12 @@ import com.cg.entity.dto.ProductResDTO;
 import com.cg.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +27,7 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Optional<Product> findById(Long aLong) {
-        return Optional.empty();
+        return productRepository.findById(aLong);
     }
 
     @Override
@@ -39,5 +43,12 @@ public class ProductServiceImpl implements IProductService{
     @Override
     public List<ProductResDTO> findAllProduct() {
         return productRepository.findAll().stream().map(Product::toProductResDTO).collect(Collectors.toList());
+    }
+
+    public Page<ProductResDTO> showAllProduct(String categoryName, String companyName,  String colorName,  String search, Pageable pageable , BigDecimal min, BigDecimal max){
+
+        return productRepository.searchAllByService(categoryName, companyName,  colorName,   search, pageable , min, max)
+                .map(Product::toProductResDTO);
+
     }
 }

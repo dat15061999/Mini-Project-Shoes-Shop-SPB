@@ -18,8 +18,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate created;
-    @OneToOne
-    private Customer customer;
     @OneToMany
     private List<CartDetail> cartDetails;
 }

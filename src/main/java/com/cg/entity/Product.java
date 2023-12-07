@@ -37,4 +37,7 @@ public class Product {
         return new ProductResDTO(id,title,prevPrice,newPrice,image,company,category,color);
     }
 
+    public Product(Long id) {
+        this.id = id;
+    }
 }
