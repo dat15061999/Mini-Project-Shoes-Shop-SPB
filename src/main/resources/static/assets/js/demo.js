@@ -1,6 +1,6 @@
 let products = [];
 let page = [];
-let newListProducts = [];
+let newPage = [];
 let currentPage = 0;
 let productsPerPage;
 const eleRenderCarts = $('#render-cart-detail');
@@ -66,8 +66,9 @@ async function filterDataFromTypePro() {
         size
     }
     const url = `http://localhost:8081/api/products`;
-    newListProducts = await getAllProductByFilter(url, "GET", data);
-    renderProducts(newListProducts.content);
+    newPage = await getAllProductByFilter(url, "GET", data);
+    productsPerPage = newPage.totalPages;
+    renderProducts(newPage.content);
 }
 
 async function getAllProductByFilter(url, method, data) {
@@ -169,15 +170,20 @@ async function getAllProduct() {
 
 function renderProducts(list) {
     $('.render-product').empty();
-    // const startIndex = (currentPage - 1) * productsPerPage;
-    // const endIndex = startIndex + productsPerPage;
-    // const paginatedList = list.slice(startIndex, endIndex);
-    list.forEach((ele) => {
-        const str = renderPro(ele);
+    if (list.length > 0) {
+        list.forEach((ele) => {
+            const str = renderPro(ele);
+            $('.render-product').append(str);
+        })
+        renderPagination(productsPerPage);
+        handleClickBtnCart();
+    }
+    else {
+        const str = `<img class="justify-content-center" src="https://mauwebsite.vn/wp-content/uploads/2021/10/loi-404.png" alt="404" 
+                                style="width: 500px ; height: 300px">`;
         $('.render-product').append(str);
-    })
-    renderPagination(productsPerPage);
-
+        $('.pagination').empty();
+    }
 }
 
 function renderPagination(totalPages) {
@@ -223,6 +229,8 @@ function handlePaginationClick() {
         await filterDataFromTypePro();
     })
 
+}
+function handleClickBtnCart() {
     $('.btn-cart').on("click", async function () {
         const idPro = parseFloat($(this).attr("id"));
         const quantity = 1;
