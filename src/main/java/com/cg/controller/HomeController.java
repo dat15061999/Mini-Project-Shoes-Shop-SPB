@@ -17,8 +17,12 @@ public class HomeController {
         return new ModelAndView("cart");
     }
 
-    @GetMapping("/dashBoard")
-    public ModelAndView showDashBoard() {
-        return new ModelAndView("dashboard");
+    @GetMapping("/productDashBoard")
+    public ModelAndView showProductDashBoard() {
+        return new ModelAndView("product");
+    }
+    @GetMapping("/orderDashBoard")
+    public ModelAndView showOrderDashBoard() {
+        return new ModelAndView("order");
     }
 }

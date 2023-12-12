@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Store Clothes</title>
+    <th:block th:replace="layout/head"></th:block>
+</head>
+
+<body>
+<th:block th:replace="layout/toast"></th:block>
+<div>
+    <div class="row">
+        <div class="container d-flex align-items-center border-bottom py-3" style="width: 85%;">
+            <div class="d-flex align-items-center" style="min-width: 180px;">
+                <a href="/home/orderDashBoard">
+                    <i class="fa fa-cart-plus" style="font-size: 17px;">
+                        Dash Board
+                    </i>
+                </a>
+
+            </div>
+            <div class="d-flex flex-grow-1 justify-content-between">
+            </div>
+            <div class="d-flex">
+                <div>
+                    <a href="/home" class="p-1">
+                        DAT PHAM
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container d-flex " style="width: 85%;">
+            <div style="min-width: 180px;">
+                <div class="mt-2">
+                    <h5>Menu</h5>
+                    <div class="d-flex flex-column">
+                        <a href="/home/orderDashBoard" class="menu d-flex align-items-center p-1"
+                           style="background-color: #86b7fe">
+                            <i class="fas fa-cart-plus p-1"></i>
+                            Order List</a>
+                        <a href="/home/productDashBoard" class="menu d-flex align-items-center p-1">
+                            <i class="fas fa-network-wired p-1"></i>
+                            Products</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-grow-1 mt-2 ms-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12" id="order-detail">
+                            <h5 class="">Order Management</h5>
+                            <table class="table table-striped product-table" style="font-size: 13px;">
+                                <thead>
+                                <tr class="table-primary tr-color">
+                                    <th class="text-center th-head align-middle">Order Date</th>
+                                    <th class="text-center th-head align-middle">Total Products</th>
+                                    <th class="text-center th-head align-middle">Subtotal</th>
+                                    <th class="text-center th-head align-middle">Shipping</th>
+                                    <th class="text-center th-head align-middle">Total Amount</th>
+                                    <th class="text-center th-head align-middle">Status</th>
+                                    <th class="text-star th-head align-middle">Customer Name</th>
+                                    <th class="text-end th-head align-middle">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="render-bill">
+                                <tr id="">
+                                    <th class="text-start align-middle" style="min-width: 200px;">Order Date</th>
+                                    <th class="text-center align-middle"> Total Products</th>
+                                    <th class="text-center align-middle">Subtotal</th>
+                                    <th class="text-center align-middle">Shipping</th>
+                                    <th class="text-center align-middle">Total Amount</th>
+                                    <th class="text-center align-middle">
+                                <span class="badge px-2 py-1 border text-black"
+                                      style="background-color: #4b4848">Status
+                                </span>
+                                    </th>
+                                    <th class="text-center align-middle">Name</th>
+                                    <th class="text-center align-middle">
+                                        <i class="fas fa-outdent edit-product btn-ed me-2" style="color: green"></i>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-5 border p-2" id="render-billDetail">
+                            <div class="d-flex align-content-center justify-content-md-between border-bottom">
+                                <h5>Order details</h5>
+                                <span role="button" class="btn-close"></span>
+                            </div>
+                            <div class="my-2 border-bottom">
+                                <h6>Order Information</h6>
+                                <div class="d-flex justify-content-md-between mb-2">
+                                    <span>Subtotal</span>
+                                    <span class="fw-bolder">$300</span>
+                                </div>
+                                <div class="d-flex justify-content-md-between mb-2">
+                                    <span>Shipping</span>
+                                    <span class="fw-bolder">Free</span>
+                                </div>
+                                <div class="d-flex justify-content-md-between mb-2">
+                                    <span>Total</span>
+                                    <span class="fw-bolder">$300</span>
+                                </div>
+                            </div>
+                            <div class="my-2 border-bottom">
+                                <h6>Customer Information</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>FullName</span>
+                                    <span class="fw-bolder">$300</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Email</span>
+                                    <span class="fw-bolder">Free</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Mobile</span>
+                                    <span class="fw-bolder">$300</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Address</span>
+                                    <span class="fw-bolder">$300</span>
+                                </div>
+                            </div>
+                            <div class="my-2">
+                                <h6>Order details</h6>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td style="width:250px">anh</td>
+                                        <td class="text-end align-middle">1</td>
+                                        <td class="text-end align-middle">price</td>
+                                        <td class="text-end align-middle">tien</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/assets/js/appUntil.js"></script>
+<script src="/assets/js/order.js"></script>
+
+</html>

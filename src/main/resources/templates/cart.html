@@ -8,10 +8,10 @@
 
 <body>
 <th:block th:replace="layout/toast"></th:block>
-<div id="root">
+<div id="root" class="overflow-auto" style="height: 100vh">
     <div class="Toastify"></div>
     <th:block th:replace="layout/taskbar"></th:block>
-    <div class="container mt-1 pb-4">
+    <div class="container mt-1 pb-4 " >
         <div class="row">
             <div class="col-md-12">
                 <h3 class=" py-2">Cart Detail</h3>
@@ -88,7 +88,6 @@
                 </form>
             </div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-4"></div>
     </div>
 </div>
 </body>

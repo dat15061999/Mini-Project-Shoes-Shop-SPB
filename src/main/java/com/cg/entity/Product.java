@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Data
 @Entity
 @Table(name = "products")
+@Accessors(chain = true)
 public class Product {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -20,7 +22,7 @@ public class Product {
     private String title;
     private BigDecimal prevPrice;
     private BigDecimal newPrice;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "image_id")
     private Image image;
     @ManyToOne
@@ -40,4 +42,6 @@ public class Product {
     public Product(Long id) {
         this.id = id;
     }
+
+
 }

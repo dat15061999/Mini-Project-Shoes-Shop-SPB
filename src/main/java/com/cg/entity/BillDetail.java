@@ -1,5 +1,7 @@
 package com.cg.entity;
 
+import com.cg.entity.dto.BillDetailResDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +25,7 @@ public class BillDetail {
     private Product product;
     @ManyToOne
     @JoinColumn(name = "bill_id")
+    @JsonIgnore
     private Bill bill;
     private String url;
     private String productName;
@@ -30,4 +33,13 @@ public class BillDetail {
     private int quantity;
     private BigDecimal total;
 
+    public BillDetailResDTO toBillDetailResDTO(){
+        return new BillDetailResDTO()
+                .setUrl(url)
+                .setTotal(total)
+                .setQuantity(quantity)
+                .setProductName(productName)
+                .setProductPrice(productPrice)
+                ;
+    }
 }

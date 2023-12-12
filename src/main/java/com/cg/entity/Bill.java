@@ -1,5 +1,6 @@
 package com.cg.entity;
 
+import com.cg.entity.dto.OrderResDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,17 @@ public class Bill {
     private LocalDate created;
     @OneToOne
     private Customer customer;
-    @OneToMany
+    @OneToMany(mappedBy = "bill")
     private List<BillDetail> billDetails;
+    private String status;
+    private String customerName;
+
+    public OrderResDTO toOrderResDTO(){
+        return new OrderResDTO()
+                .setId(id)
+                .setStatus(status)
+                .setCreated(created)
+                .setCustomer(customer)
+                ;
+    }
 }

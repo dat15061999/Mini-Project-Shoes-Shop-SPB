@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Store Clothes</title>
+    <th:block th:replace="layout/head"></th:block>
+</head>
+
+<body>
+<th:block th:replace="layout/toast"></th:block>
+<div>
+    <div class="overflow-auto" style="height: 100vh">
+        <div class="row">
+            <div class="container d-flex align-items-center border-bottom py-3" style="width: 85%;">
+                <div class="d-flex align-items-center" style="min-width: 180px;">
+                    <a href="/home">
+                        <i class="fa fa-cart-plus" style="font-size: 17px;">
+                            Dash Board
+                        </i>
+                    </a>
+
+                </div>
+                <div class="d-flex flex-grow-1 justify-content-between">
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <a href="/home" class="p-1">
+                            DAT PHAM
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex " style="width: 85%;">
+                <div style="min-width: 180px;">
+                    <div class="mt-2">
+                        <h5>Menu</h5>
+                        <div class="d-flex flex-column">
+                            <a href="/home/orderDashBoard" class="menu d-flex align-items-center p-1">
+                                <i class="fas fa-cart-plus p-1"></i>
+                                Order List</a>
+                            <a href="/home/productDashBoard" class="menu d-flex align-items-center p-1"
+                               style="background-color: #86b7fe">
+                                <i class="fas fa-network-wired p-1"></i>
+                                Products</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-grow-1 mt-2 ms-3">
+                    <div class="container d-flex justify-content-md-between">
+                        <h4 class="">Product List Management</h4>
+                        <button class="btn btn-warning btn-sm d-flex align-items-center btn-create"><i
+                                class="fa fa-plus p-1"></i>
+                            Add new product
+                        </button>
+                    </div>
+                    <div id="loading" class="sk-chase hide">
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                        <div class="sk-chase-dot"></div>
+                    </div>
+                    <div class="product-form ms-3 mb-2 mt-1">
+                        <form class="row" style="font-size: 14px" id="frm-product">
+                            <div class="col-md-4">
+                                <div class="form-group mb-1">
+                                    <label class="form-label" for="title">Title</label>
+                                    <input type="text" class="form-control form-control-sm " placeholder="Title"
+                                           id="title" name="eleTitle">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Price</label>
+                                    <input type="number" class="form-control form-control-sm " placeholder="Price"
+                                           id="price" name="elePrice">
+                                </div>
+                                <div class="form-group mb-1">
+                                    <div class="d-flex mt-4">
+                                        <button class="btn btn-success btn-sm flex-grow-1 d-flex align-items-center justify-content-center me-2"
+                                                type="submit" id="create-product">
+                                            <i class="fa fa-plus pe-3"></i>Add
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-dark btn-sm flex-grow-1 d-flex align-items-center justify-content-center close">
+                                            <i class="fas fa-times pe-3"></i>Close
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-1">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-control form-control-sm" id="categories"
+                                            name="eleCategory"></select>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label class="form-label">Company</label>
+                                    <select class="form-control form-control-sm" id="companies"
+                                            name="eleCompany"></select>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label class="form-label">Color</label>
+                                    <select class="form-control form-control-sm" id="colors" name="eleColor"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border-dashed w-100 h-100">
+                                    <div role="button"
+                                         class="d-flex flex-column align-items-center justify-content-center w-100 h-100 text-secondary choose-file">
+                                        <i class="fas fa-download" style="font-size: 50px;"></i>
+                                        <span class="text-decoration-underline"> Browse a photo</span>
+                                    </div>
+                                    <input id="file-photo" type="file" accept="image/*" class="d-none">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4 d-flex align-content-center me-2 my-2">
+                        <span class="me-2">Field</span>
+                        <select class="form-select form-select-sm me-2" name="" id="sortField">
+                            <option value="id">Id</option>
+                            <option value="title">Title</option>
+                            <option value="category">Category</option>
+                            <option value="color">Color</option>
+                            <option value="company">Company</option>
+                        </select>
+                        <span class="me-2">Price</span>
+                        <select class="form-select form-select-sm me-2" name="" id="sort">
+                            <option value="desc">Descendent</option>
+                            <option value="asc">Ascending</option>
+                        </select>
+                    </div>
+                    <div class="row product-list mt-1">
+                        <table class="table table-striped product-table" style="font-size: 13px;">
+                            <thead>
+                            <tr class="table-primary tr-color">
+                                <th class="text-center th-head">Title</th>
+                                <th class="text-center th-head">Color</th>
+                                <th class="text-center th-head">Category</th>
+                                <th class="text-center th-head">Company</th>
+                                <th class="text-center th-head">Price</th>
+                                <th class="text-center th-head">Rate</th>
+                                <th class="text-center th-head">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="render-product">
+                            <tr id="">
+                                <th class="text-start align-middle" style="min-width: 200px;">
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ejzJHNXHJQpNMrXjfDjhk-2zGb5X9Ws4kg&usqp=CAU"
+                                             alt=""
+                                             style="width: 70px;height: 40px">
+                                        <span class="ms-2">Nike</span>
+                                    </div>
+                                </th>
+                                <th class="text-center align-middle">
+                                <span class="badge px-2 py-1 border text-black"
+                                      style="background-color: white">white</span>
+                                </th>
+                                <th class="text-center align-middle">2</th>
+                                <th class="text-center align-middle">3</th>
+                                <th class="text-center align-middle">4</th>
+                                <th class="text-center align-middle">5</th>
+                                <th class="text-center align-middle">
+                                    <i class="far fa-edit edit-product btn-ed me-2" style="color: green"></i>
+                                    <i class="fas fa-trash delete-product btn-ed" style="color: red"></i>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <ul class="pagination my-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex align-content-center">
+                            <span class="">item per page</span>
+                            <select class="form-control" style="width: 35px; height: 35px" id="pageSize">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/assets/js/appUntil.js"></script>
+<script src="/assets/js/product.js"></script>
+
+</html>

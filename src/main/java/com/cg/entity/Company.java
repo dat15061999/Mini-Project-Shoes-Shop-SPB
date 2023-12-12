@@ -21,4 +21,8 @@ public class Company {
         return new CompanyResDTO()
                 .setName(name);
     }
+
+    public Company(Long id) {
+        this.id = id;
+    }
 }

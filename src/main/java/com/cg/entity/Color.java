@@ -21,4 +21,8 @@ public class Color {
         return new ColorResDTO()
                 .setName(name);
     }
+
+    public Color(Long id) {
+        this.id = id;
+    }
 }

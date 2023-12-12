@@ -20,13 +20,9 @@ public class ProductResDTO {
     private String title;
     private BigDecimal prevPrice;
     private BigDecimal newPrice;
-
     private ImageResDTO image;
-
     private CompanyResDTO company;
-
     private CategoryResDTO category;
-
     private ColorResDTO color;
 
     public ProductResDTO(Long id, String title, BigDecimal prevPrice, BigDecimal newPrice, Image image, Company company, Category category, Color color) {

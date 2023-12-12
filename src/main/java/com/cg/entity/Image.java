@@ -15,11 +15,14 @@ import lombok.NoArgsConstructor;
 public class Image {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String url;
     public ImageResDTO toImageResDTO(){
         return new ImageResDTO()
                 .setUrl(url);
+    }
+
+    public Image(Long id) {
+        this.id = id;
     }
 }

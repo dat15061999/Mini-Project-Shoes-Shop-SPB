@@ -1,27 +1,24 @@
 package com.cg.api;
 
-import com.cg.entity.Bill;
-import com.cg.entity.CartDetail;
-import com.cg.entity.Customer;
-import com.cg.entity.Product;
-import com.cg.entity.dto.CartDetailDTO;
-import com.cg.entity.dto.CartDetailResDTO;
-import com.cg.entity.dto.CustomerReqDTO;
-import com.cg.entity.dto.ProductResDTO;
+import com.cg.entity.*;
+import com.cg.entity.dto.*;
 import com.cg.service.bill.IBillService;
 import com.cg.service.cartdetail.CartDetailServiceImpl;
 import com.cg.service.customer.ICustomerService;
+import com.cg.service.file.UploadFileService;
 import com.cg.service.product.ProductServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +26,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
-public class HomeApi {
+public class ProductAPI {
 
     @Autowired
     private ProductServiceImpl productService;
@@ -41,18 +38,29 @@ public class HomeApi {
     @Autowired
     private IBillService billService;
 
+
     @GetMapping
-    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 2) Pageable pageable,
-                                                      @RequestParam(defaultValue = "", value = "search") String search,
-                                                      @RequestParam(defaultValue = "", value = "category") String categoryName,
-                                                      @RequestParam(defaultValue = "", value = "company") String companyName,
-                                                      @RequestParam(defaultValue = "", value = "color") String colorName,
-                                                      @RequestParam(defaultValue = "1", value = "min") BigDecimal min,
-                                                      @RequestParam(defaultValue = "500000000000000000", value = "max") BigDecimal max
+    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 8,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
+                                                      @RequestBody(required = false) FilterProduct filterProduct) {
+        if (filterProduct == null) {
+            filterProduct = new FilterProduct("","","","",BigDecimal.valueOf(0),BigDecimal.valueOf(1500));
+        }
+        return new ResponseEntity<>(productService.showAllProduct( pageable, filterProduct), HttpStatus.OK);
+    }
 
-    ) {
+    @PostMapping
+    public ResponseEntity<?> createProduct(@RequestBody ProductRepDTO productRepDTO){
+        Product product = productRepDTO.toProduct();
+        productService.save(product);
+        Optional<Product> newProduct = productService.findById(product.getId());
+        return new ResponseEntity<>(newProduct.get().toProductResDTO(), HttpStatus.CREATED);
+    }
 
-        return new ResponseEntity<>(productService.showAllProduct(categoryName, companyName, colorName, search, pageable, min, max), HttpStatus.OK);
+    @GetMapping("/{idProduct}")
+    public ResponseEntity<?> getProductById(@PathVariable Long idProduct){
+        Optional<Product> product = productService.findById(idProduct);
+        ProductResDTO productRepDTO = product.get().toProductResDTO();
+        return new ResponseEntity<>(productRepDTO, HttpStatus.OK);
     }
 
     @GetMapping("/amountCartDetail")
@@ -81,7 +89,7 @@ public class HomeApi {
     }
 
     @PatchMapping("/cart/{idCart}")
-    public ResponseEntity<?> updateCartDetail(@PathVariable Long idCart,@RequestBody CartDetailDTO cartDetailDTO) {
+    public ResponseEntity<?> updateCartDetail(@PathVariable Long idCart, @RequestBody CartDetailDTO cartDetailDTO) {
         Optional<CartDetail> cartDetail = cartDetailService.findById(idCart);
         CartDetail oldCartDetail = cartDetail.get();
         oldCartDetail.setQuantity(oldCartDetail.getQuantity() + cartDetailDTO.getQuantity());
@@ -102,6 +110,7 @@ public class HomeApi {
         cartDetailService.delete(idCart);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
     @GetMapping("/cart/{idCart}")
     public ResponseEntity<?> findByID(@PathVariable Long idCart) {
         Optional<CartDetail> cartDetail = cartDetailService.findById(idCart);
@@ -109,6 +118,7 @@ public class HomeApi {
         CartDetailResDTO cartDetailResDTO = oldCartDetail.toCartDetailResDTO();
         return new ResponseEntity<>(cartDetailResDTO, HttpStatus.OK);
     }
+
     @PostMapping("/order")
     public ResponseEntity<?> createBill(@RequestBody CustomerReqDTO customerReqDTO) {
         Customer customer = customerReqDTO.toCustomer();
@@ -117,7 +127,7 @@ public class HomeApi {
         List<CartDetail> cartDetails = cartDetailService.findAll();
         Optional<Bill> bill = billService.findBillByCustomer_Name(customer.getName());
         for (CartDetail item : cartDetails) {
-            billService.save(bill.get(),item);
+            billService.save(bill.get(), item);
             cartDetailService.delete(item.getId());
         }
         return new ResponseEntity<>("OK", HttpStatus.CREATED);

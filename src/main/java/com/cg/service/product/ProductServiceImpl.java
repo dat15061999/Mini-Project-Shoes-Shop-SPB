@@ -1,6 +1,7 @@
 package com.cg.service.product;
 
 import com.cg.entity.Product;
+import com.cg.entity.dto.FilterProduct;
 import com.cg.entity.dto.ProductResDTO;
 import com.cg.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -32,7 +33,7 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public void save(Product product) {
-
+        productRepository.save(product);
     }
 
     @Override
@@ -45,9 +46,8 @@ public class ProductServiceImpl implements IProductService{
         return productRepository.findAll().stream().map(Product::toProductResDTO).collect(Collectors.toList());
     }
 
-    public Page<ProductResDTO> showAllProduct(String categoryName, String companyName,  String colorName,  String search, Pageable pageable , BigDecimal min, BigDecimal max){
-
-        return productRepository.searchAllByService(categoryName, companyName,  colorName,   search, pageable , min, max)
+    public Page<ProductResDTO> showAllProduct(Pageable pageable, FilterProduct filterProduct){
+        return productRepository.searchAllByService(pageable, filterProduct)
                 .map(Product::toProductResDTO);
 
     }
