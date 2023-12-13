@@ -5,20 +5,15 @@ import com.cg.entity.dto.*;
 import com.cg.service.bill.IBillService;
 import com.cg.service.cartdetail.CartDetailServiceImpl;
 import com.cg.service.customer.ICustomerService;
-import com.cg.service.file.UploadFileService;
 import com.cg.service.product.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -38,29 +33,39 @@ public class ProductAPI {
     @Autowired
     private IBillService billService;
 
-
-    @GetMapping
-    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 8,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
+    @PostMapping
+    public ResponseEntity<Page<ProductResDTO>> getAll(@PageableDefault(size = 8, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                                       @RequestBody(required = false) FilterProduct filterProduct) {
         if (filterProduct == null) {
-            filterProduct = new FilterProduct("","","","",BigDecimal.valueOf(0),BigDecimal.valueOf(1500));
+            filterProduct = new FilterProduct("", "", "", "", BigDecimal.valueOf(0), BigDecimal.valueOf(1500));
         }
-        return new ResponseEntity<>(productService.showAllProduct( pageable, filterProduct), HttpStatus.OK);
+        return new ResponseEntity<>(productService.showAllProduct(pageable, filterProduct), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductRepDTO productRepDTO){
+    @PostMapping("/create")
+    public ResponseEntity<?> createProduct(@RequestBody ProductRepDTO productRepDTO) {
         Product product = productRepDTO.toProduct();
         productService.save(product);
         Optional<Product> newProduct = productService.findById(product.getId());
         return new ResponseEntity<>(newProduct.get().toProductResDTO(), HttpStatus.CREATED);
     }
-
+    @DeleteMapping("/{idProduct}")
+    public  ResponseEntity<?> deleteProductById(@PathVariable Long idProduct) {
+        productService.delete(idProduct);
+        return new ResponseEntity<>("Ok", HttpStatus.OK);
+    }
     @GetMapping("/{idProduct}")
-    public ResponseEntity<?> getProductById(@PathVariable Long idProduct){
+    public ResponseEntity<?> getProductById(@PathVariable Long idProduct) {
         Optional<Product> product = productService.findById(idProduct);
         ProductResDTO productRepDTO = product.get().toProductResDTO();
         return new ResponseEntity<>(productRepDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = "/{idProduct}", consumes = "application/json")
+    public ResponseEntity<?> updateProduct(@PathVariable Long idProduct, @RequestBody ProductRequestDTO productRequestDTO) {
+        Product product = productService.update(idProduct, productRequestDTO);
+        Optional<Product> newProduct = productService.findById(idProduct);
+        return new ResponseEntity<>(newProduct.get().toProductResDTO(), HttpStatus.OK);
     }
 
     @GetMapping("/amountCartDetail")

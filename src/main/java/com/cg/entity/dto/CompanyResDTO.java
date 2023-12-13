@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class CompanyResDTO {
-
+    private Long id;
     private String name;
 }

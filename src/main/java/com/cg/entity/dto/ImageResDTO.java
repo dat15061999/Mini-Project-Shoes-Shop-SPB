@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ImageResDTO {
+    private Long id;
     private String url;
 
 }

@@ -10,6 +10,19 @@ const elePrice = $('#price')
 const eleCategory = $('#categories')
 const eleCompany = $('#companies')
 const eleColor = $('#colors')
+//edit product
+const frmEdit = $('#frm-edit')
+const divChooseFileEdit = $('.choose-editFile')
+const modalEdit = $('#modalEdit')
+const edTitle = $('#edTitle')
+const edPrice = $('#edPrice')
+const prevPrice = $('#prevPrice')
+const edCategory = $('#edCategories')
+const edCompany = $('#edCompanies')
+const edColor = $('#edColors')
+const edImg = $('.edImg')
+let idImageEdit;
+let currentIDProduct;
 let newFile;
 let newFileToo;
 let products = [];
@@ -22,7 +35,7 @@ divCreateProduct.hide()
 async function getPageProduct() {
     return await $.ajax({
         url: AppUntil.BASE_PRODUCTS_API,
-        method: "GET"
+        method: "POST"
     })
 }
 
@@ -90,19 +103,49 @@ function renderProduct(obj) {
              </th>
              <th class="text-center align-middle">5</th>
              <th class="text-center align-middle">
-                 <i class="far fa-edit edit-product btn-ed me-2" style="color: green" onclick="editProduct(${obj.id})"></i>
+                 <i class="far fa-edit edit-product btn-ed me-2 show-product" style="color: green" ></i>
                  <i class="fas fa-trash delete-product btn-ed" style="color: red" onclick="deleteProduct(${obj.id})"></i>
              </th>
           /tr>
     `;
 }
 
+function deleteProduct(idProduct) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You will be deleted this product !",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove it!"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            $('tr[id="'+idProduct+'"]').remove();
+            deleteCallAPI(idProduct)
+                .then(() => {
+                    Swal.fire({
+                        text: "Your image has been uploaded.",
+                        icon: "success"
+                    });
+                });
+        }
+    });
+}
+
+async function deleteCallAPI(idProduct) {
+    await $.ajax({
+        url: AppUntil.BASE_PRODUCTS_API + "/"+idProduct,
+        method: "DELETE"
+    })
+}
 function renderProducts(list) {
     $('#render-product').empty();
     list.forEach((item) => {
         const str = renderProduct(item);
         $('#render-product').append(str);
     })
+    handleClickUpdate();
 }
 
 function pagination(totalPages) {
@@ -147,20 +190,22 @@ function handleClick() {
     })
 }
 
+function handleClickUpdate() {
+    $('.show-product').on('click', function () {
+        currentIDProduct = $(this).parents('tr').attr('id')
+        showProduct(currentIDProduct);
+    })
+}
+
 function getProducts() {
     const page = currentPage;
     const size = $('#pageSize').find(':selected').val();
     const sortField = $('#sortField').find(':selected').val();
     const value = $('#sort').find(':selected').val();
-    const data = {
-        page,
-        size,
-        sort: "" + sortField + "," + value
-    }
+    const url = 'http://localhost:8081/api/products?sort=' + sortField + "," + value + '&size=' + size + '&page=' + page;
     $.ajax({
-        url: AppUntil.BASE_PRODUCTS_API,
-        method: "GET",
-        data: data
+        url: url,
+        method: "POST"
     }).then((data) => {
         renderProducts(data.content);
         pagination(data.totalPages);
@@ -178,6 +223,22 @@ divChooseFile.on('click', function () {
     })
 })
 
+function chooseFileEditImage() {
+    divChooseFileEdit.on('click', function () {
+        $('#file-edPhoto').click();
+
+        $('#file-edPhoto').on('change', function (event) {
+            var file = event.target.files[0];
+            var absolutePath = URL.createObjectURL(file);
+            newFile = file;
+            renderImg($('.choose-editFile'), absolutePath);
+        })
+    })
+    $('.btn-update').on('click', function () {
+        frmEdit.trigger('submit');
+    })
+}
+
 function confirmUpload(file, absolutePath) {
     Swal.fire({
         title: "Are you sure?",
@@ -189,7 +250,7 @@ function confirmUpload(file, absolutePath) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             newFile = file;
-            renderImg(absolutePath);
+            renderImg(divChooseFile, absolutePath);
             Swal.fire({
                 text: "Your image has been uploaded.",
                 icon: "success"
@@ -312,7 +373,7 @@ async function createProduct() {
             image: image.id
         };
         $.ajax({
-            url: AppUntil.BASE_PRODUCTS_API,
+            url: AppUntil.BASE_CREATE_PRODUCTS_API,
             method: "POST",
             data: JSON.stringify(data),
             contentType: "application/json"
@@ -329,7 +390,6 @@ async function createProduct() {
             addButton.prop("disabled", false);
             alert(alertContent);
         })
-
     } catch (error) {
         event.preventDefault();
         console.error(error);
@@ -343,57 +403,203 @@ async function createProduct() {
     }
 }
 
-function renderImg(obj) {
-    divChooseFile.empty();
+function showProduct(idProduct) {
+    $.ajax({
+        url: AppUntil.BASE_PRODUCTS_API + "/" + idProduct,
+    }).then(async (product) => {
+        edTitle.val(product.title);
+        edPrice.val(product.newPrice);
+        prevPrice.val(product.prevPrice)
+        await renderSelectOfCategory(edCategory);
+        await renderSelectOfCompany(edCompany);
+        await renderSelectOfColor(edColor);
+        setSelectedOption("#edCategories", product.category.id);
+        setSelectedOption("#edCompanies", product.company.id);
+        setSelectedOption("#edColors", product.color.id);
+        $('.edImg').attr('src', '#');
+        $('.edImg').attr("src", product.image.url);
+        idImageEdit = product.image.id;
+        modalEdit.modal('show');
+        checkValidateOfFrmEdit();
+        chooseFileEditImage();
+    })
+}
+
+function checkValidateOfFrmEdit() {
+    frmEdit.validate({
+        onkeyup: function (element) {
+            $(element).valid();
+        },
+        onclick: false,
+        onfocusout: false,
+        rules: {
+            edTitle: {
+                required: true
+            },
+            prevPrice: {
+                required: true
+            },
+            edPrice: {
+                required: true
+            },
+            edCategory: {
+                required: true
+            },
+            edCompany: {
+                required: true
+            },
+            edColor: {
+                required: true
+            }
+        },
+        messages: {
+            edTitle: {
+                required: "Title is a required field"
+            },
+            prevPrice: {
+                required: "Prev Price is a required field"
+            },
+            edPrice: {
+                required: "New Price is a required field"
+            },
+            edCategory: {
+                required: "Category is a required field"
+            },
+            edCompany: {
+                required: "Company is a required field"
+            },
+            edColor: {
+                required: "Color is a required field"
+            }
+        },
+        errorPlacement: function (error, element) {
+            if (this.numberOfInvalids() > 0) {
+                error.addClass("invalid-feedback");
+            } else {
+                error.removeClass("invalid-feedback")
+            }
+            error.insertAfter(element.parent());
+            element.on('change', function () {
+                $(this).valid();
+            });
+        },
+        submitHandler: function () {
+            updateProduct();
+        }
+    });
+}
+
+async function updateProduct() {
+    $('.btn-update').prop("disabled", true);
+    $('#loading').removeClass("hide");
+    const title = edTitle.val();
+    const newPrice = edPrice.val();
+    const prPrice = prevPrice.val();
+    const idCategory = edCategory.find(":selected").val();
+    const idCompany = edCompany.find(":selected").val();
+    const idColor = edColor.find(":selected").val();
+    if (newFile) {
+        const formData = new FormData();
+        formData.append("images", newFile);
+        formData.append("fileType", "image");
+        const image = await $.ajax({
+            url: AppUntil.BASE_UPLOAD_API + "/image",
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false
+        });
+        idImageEdit = image.id;
+    }
+    const data = {
+        title,
+        newPrice: newPrice,
+        prevPrice: prPrice,
+        idCategory,
+        idCompany,
+        idColor,
+        idImage: idImageEdit
+    };
+    $.ajax({
+        url: AppUntil.BASE_PRODUCTS_API + "/" + currentIDProduct,
+        method: "PATCH",
+        data: JSON.stringify(data),
+        contentType: "application/json"
+    }).then((item) => {
+        const alertContent = {
+            text: "Your product has been saved.",
+            icon: "success"
+        };
+        const str = renderProduct(item);
+        $('tr[id="' + currentIDProduct + '"]').replaceWith(str);
+        newFile = newFileToo;
+        setTimeout(() => {
+            $('#loading').addClass('hide');
+            $('.btn-update').prop("disabled", false);
+            alert(alertContent);
+            currentIDProduct = newFileToo;
+            handleClickUpdate();
+            modalEdit.modal('hide');
+        }, 3000)
+    })
+
+}
+
+function setSelectedOption(selectId, selectedId) {
+    $(selectId + " option[value='" + selectedId + "']").prop('selected', true);
+}
+
+function renderImg(div, obj) {
+    div.empty();
     const str = renderImageAndButton(obj);
-    divChooseFile.append(str);
+    div.append(str);
 }
 
 function renderImageAndButton(obj) {
     return `
-        <img src=${obj} style="max-width: 330px; max-height: 170px" >           
+        <img src=${obj} style="max-width: 330px; max-height: 170px" class="edImg">           
     `;
 }
 
-async function renderSelectAll() {
-    await renderSelectOfCategory();
-    await renderSelectOfCompany();
-    await renderSelectOfColor();
+function renderSelectAll() {
+    renderSelectOfCategory(eleCategory);
+    renderSelectOfCompany(eleCompany);
+    renderSelectOfColor(eleColor);
 }
 
-async function renderSelectOfCategory() {
+async function renderSelectOfCategory(category) {
     const categories = await getAllCategories();
-    eleCategory.empty();
-    eleCategory.append(`<option value="">Please select category</option>`);
+    category.empty();
+    category.append(`<option value="">Please select category</option>`);
     categories.forEach((item) => {
         const str = `
             <option value="${item.id}">${item.name.charAt(0).toUpperCase() + item.name.slice(1)}</option>
         `;
-        eleCategory.append(str);
+        category.append(str);
     })
 }
 
-async function renderSelectOfCompany() {
+async function renderSelectOfCompany(company) {
     const companies = await getAllCompanies();
-    eleCompany.empty();
-    eleCompany.append(`<option value="">Please select company</option>`);
+    company.empty();
+    company.append(`<option value="">Please select company</option>`);
     companies.forEach((item) => {
         const str = `
             <option value="${item.id}">${item.name}</option>
         `;
-        eleCompany.append(str);
+        company.append(str);
     })
 }
 
-async function renderSelectOfColor() {
+async function renderSelectOfColor(color) {
     const colors = await getAllColors();
-    eleColor.empty();
-    eleColor.append(`<option value="">Please select color</option>`);
+    color.empty();
+    color.append(`<option value="">Please select color</option>`);
     colors.forEach((item) => {
         const str = `
             <option value="${item.id}">${item.name.charAt(0).toUpperCase() + item.name.slice(1)}</option>
         `;
-        eleColor.append(str);
+        color.append(str);
     })
 }
 

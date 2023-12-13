@@ -45,14 +45,14 @@ async function filterDataFromTypePro() {
     const valueColor = $('input.color:checked').val();
     const valuePrice = $('input.price:checked').val();
     const [numberBefore, numberAfter] =
-        (valuePrice === "All") ? "1-5550".match(/^(\d+)-(\d+)$/)?.slice(1) : (valuePrice === "Over150") ? "150-150".match(/^(\d+)-(\d+)$/)?.slice(1) : valuePrice.match(/^(\d+)-(\d+)$/)?.slice(1);
+        (valuePrice === "All") ? "1-5550".match(/^(\d+)-(\d+)$/)?.slice(1) : (valuePrice === "Over150") ? "150-5000"
+            .match(/^(\d+)-(\d+)$/)?.slice(1) : valuePrice.match(/^(\d+)-(\d+)$/)?.slice(1);
     const search = $('input.in-search').val().toLowerCase();
     const brandMatch = (valueBrand === "All Products") ? "" : valueBrand;
     const categoryMatch = (valueCategory === "All") ? "" : valueCategory.toLowerCase();
     const colorMatch = (valueColor === "All") ? "" : valueColor.toLowerCase();
     const sortPrice = $('#sortPrice').find(":selected").val();
     const size = $('#pageSize').find(":selected").val();
-
     const
     data = {
         search: search,
@@ -60,13 +60,10 @@ async function filterDataFromTypePro() {
         company: brandMatch,
         color: colorMatch,
         min: numberBefore,
-        max: numberAfter,
-        page: currentPage,
-        sort: "prevPrice," + sortPrice,
-        size
+        max: numberAfter
     }
-    const url = `http://localhost:8081/api/products`;
-    newPage = await getAllProductByFilter(url, "GET", data);
+    const url = 'http://localhost:8081/api/products?sort=' + "prevPrice," + sortPrice + '&size=' + size + '&page=' + currentPage;
+    newPage = await getAllProductByFilter(url, "POST", data);
     productsPerPage = newPage.totalPages;
     renderProducts(newPage.content);
 }
@@ -75,7 +72,7 @@ async function getAllProductByFilter(url, method, data) {
     return await $.ajax({
         url: url,
         method: method,
-        data: data,
+        data: JSON.stringify(data),
         contentType: "application/json"
     });
 }
@@ -164,7 +161,8 @@ function renderPro(obj) {
 
 async function getAllProduct() {
     return await $.ajax({
-        url: "http://localhost:8081/api/products"
+        url: "http://localhost:8081/api/products",
+        method:"POST"
     })
 }
 
@@ -365,12 +363,12 @@ function deleteEle(idCart) {
     $('#render-cart-detail').children(`tr[id="${idCart}"]`).remove();
 }
 
-async function deleteProduct(id) {
-    await $.ajax({
-        url: "http://localhost:8081/api/products/cart/" + id,
-        method: "DELETE"
-    })
-}
+// async function deleteProduct(id) {
+//     await $.ajax({
+//         url: "http://localhost:8081/api/products/cart/" + id,
+//         method: "DELETE"
+//     })
+// }
 
 
 

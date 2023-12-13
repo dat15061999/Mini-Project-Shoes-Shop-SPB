@@ -9,11 +9,12 @@
 <body>
 <th:block th:replace="layout/toast"></th:block>
 <div>
+    <th:block th:replace="layout/modalEditProduct"></th:block>
     <div class="overflow-auto" style="height: 100vh">
         <div class="row">
             <div class="container d-flex align-items-center border-bottom py-3" style="width: 85%;">
                 <div class="d-flex align-items-center" style="min-width: 180px;">
-                    <a href="/home">
+                    <a href="/home/orderDashBoard">
                         <i class="fa fa-cart-plus" style="font-size: 17px;">
                             Dash Board
                         </i>
@@ -185,7 +186,7 @@
                         <div class="d-flex align-content-center">
                             <span class="">item per page</span>
                             <select class="form-control" style="width: 35px; height: 35px" id="pageSize">
-                                <option value="5">5</option>
+                                <option value="8">8</option>
                                 <option value="10">10</option>
                                 <option value="15">15</option>
                             </select>

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 
@@ -15,6 +17,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "products")
 @Accessors(chain = true)
+@SQLDelete(sql = "UPDATE products SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Product {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -34,6 +38,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;
+
+    private boolean deleted = Boolean.FALSE;
 
     public ProductResDTO toProductResDTO() {
         return new ProductResDTO(id,title,prevPrice,newPrice,image,company,category,color);

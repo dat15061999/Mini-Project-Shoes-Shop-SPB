@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ColorResDTO {
-
+    private Long id;
     private String name;
 }

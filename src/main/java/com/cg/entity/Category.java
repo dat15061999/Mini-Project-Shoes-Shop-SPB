@@ -18,6 +18,7 @@ public class Category {
     private String name;
     public CategoryResDTO toCategory(){
         return new CategoryResDTO()
+                .setId(id)
                 .setName(name);
     }
 

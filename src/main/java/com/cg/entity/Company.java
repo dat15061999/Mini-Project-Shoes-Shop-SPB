@@ -19,6 +19,7 @@ public class Company {
     private String name;
     public CompanyResDTO toCompanyResDTO(){
         return new CompanyResDTO()
+                .setId(id)
                 .setName(name);
     }
 

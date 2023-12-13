@@ -19,6 +19,7 @@ public class Image {
     private String url;
     public ImageResDTO toImageResDTO(){
         return new ImageResDTO()
+                .setId(id)
                 .setUrl(url);
     }
 

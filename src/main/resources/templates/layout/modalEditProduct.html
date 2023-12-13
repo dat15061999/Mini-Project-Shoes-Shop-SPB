@@ -1,0 +1,66 @@
+<th:block th:frogment="modalEditProduct">
+  <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="row" style="font-size: 14px" id="frm-edit">
+            <div class="col-md-4">
+              <div class="form-group mb-1">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control form-control-sm " placeholder="Title"
+                       id="edTitle" name="edTitle">
+              </div>
+              <div class="form-group mb-1">
+                <label class="form-label">New Price</label>
+                <input type="number" class="form-control form-control-sm " placeholder="Price"
+                       id="edPrice" name="edPrice">
+              </div>
+              <div class="form-group mb-1">
+                <label class="form-label">Prev Price</label>
+                <input type="number" class="form-control form-control-sm " placeholder="Price"
+                       id="prevPrice" name="prevPrice">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-1">
+                <label class="form-label">Category</label>
+                <select class="form-control form-control-sm" id="edCategories"
+                        name="edCategory"></select>
+              </div>
+              <div class="form-group mb-1">
+                <label class="form-label">Company</label>
+                <select class="form-control form-control-sm" id="edCompanies"
+                        name="edCompany"></select>
+              </div>
+              <div class="form-group mb-1">
+                <label class="form-label">Color</label>
+                <select class="form-control form-control-sm" id="edColors" name="edColor"></select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border-dashed w-100 h-100">
+                <div role="button"
+                     class="d-flex flex-column align-items-center justify-content-center w-100 h-100 text-secondary choose-editFile">
+                  <img src="" style="max-width: 330px; max-height: 170px" class="edImg" >
+                </div>
+                <input id="file-edPhoto" type="file" accept="image/*" class="d-none">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-undo-alt me-1"></i>
+            Close</button>
+          <button type="button" class="btn btn-success btn-update">
+            <i class="fas fa-save me-1"></i>
+            Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>

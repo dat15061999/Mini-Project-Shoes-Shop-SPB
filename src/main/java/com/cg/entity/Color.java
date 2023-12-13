@@ -19,6 +19,7 @@ public class Color {
 
     public ColorResDTO toColorResDTO() {
         return new ColorResDTO()
+                .setId(id)
                 .setName(name);
     }
 
