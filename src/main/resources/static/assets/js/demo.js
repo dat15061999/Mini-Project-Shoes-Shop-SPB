@@ -363,13 +363,36 @@ function deleteEle(idCart) {
     $('#render-cart-detail').children(`tr[id="${idCart}"]`).remove();
 }
 
-// async function deleteProduct(id) {
-//     await $.ajax({
-//         url: "http://localhost:8081/api/products/cart/" + id,
-//         method: "DELETE"
-//     })
-// }
+function deleteProduct(idProduct) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You will be deleted this product !",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove it!"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            $('tr[id="'+idProduct+'"]').remove();
+            deleteCallAPI(idProduct)
+                .then(() => {
+                    Swal.fire({
+                        text: "Your image has been uploaded.",
+                        icon: "success"
+                    });
+                });
+        }
+    });
+}
 
+async function deleteCallAPI(idProduct) {
+    console.log(123)
+    await $.ajax({
+        url: AppUntil.BASE_PRODUCTS_API + "/"+idProduct,
+        method: "DELETE"
+    })
+}
 
 
 

@@ -134,6 +134,7 @@ function deleteProduct(idProduct) {
 }
 
 async function deleteCallAPI(idProduct) {
+    console.log(123)
     await $.ajax({
         url: AppUntil.BASE_PRODUCTS_API + "/"+idProduct,
         method: "DELETE"
